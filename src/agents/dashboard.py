@@ -57,16 +57,22 @@ def _build_data(runs: List[RunRecord], df, metric_columns, title) -> dict:
             "kpis": kpis, "runs": runs_data}
 
 
-def build_dashboard(runs: List[RunRecord], out_path, df: Optional[pd.DataFrame] = None,
-                    metric_columns: Sequence[str] = (), title: str = "Business Consultant Dashboard") -> Path:
+def dashboard_html(runs: List[RunRecord], df: Optional[pd.DataFrame] = None,
+                   metric_columns: Sequence[str] = (), title: str = "Business Consultant Dashboard") -> str:
+    """The dashboard as one HTML string (for apps that serve or download it)."""
     if not runs:
         raise ValueError("No runs to build a dashboard from (RUNS is empty).")
     data = _build_data(runs, df, metric_columns, title)
     payload = json.dumps(data, ensure_ascii=False, allow_nan=False).replace("</", "<\\/")
-    html = _TEMPLATE.replace("__DATA__", payload).replace("__TITLE__", title.replace("<", "&lt;"))
+    return _TEMPLATE.replace("__DATA__", payload).replace("__TITLE__", title.replace("<", "&lt;"))
+
+
+def build_dashboard(runs: List[RunRecord], out_path, df: Optional[pd.DataFrame] = None,
+                    metric_columns: Sequence[str] = (), title: str = "Business Consultant Dashboard") -> Path:
+    """Same dashboard, saved to a file."""
     out = Path(out_path)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(html, encoding="utf-8")
+    out.write_text(dashboard_html(runs, df, metric_columns, title), encoding="utf-8")
     print(f"Dashboard saved: {out}")
     return out
 
