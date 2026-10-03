@@ -1,0 +1,69 @@
+[
+  {
+    "id": "regions_margin",
+    "question": "Which regions generate the most net_sales and profit, and what is each region's profit margin?",
+    "goal": "Increase overall profitability",
+    "expected_all": [
+      "group_analysis",
+      "ratio_analysis"
+    ]
+  },
+  {
+    "id": "sales_channel_margin",
+    "question": "Which sales_channel is the most profitable relative to its net_sales?",
+    "goal": "Increase overall profitability",
+    "expected_all": [
+      "ratio_analysis"
+    ]
+  },
+  {
+    "id": "marketing_negligible",
+    "question": "Which marketing channels bring the highest net_sales, and how does their average profit compare?",
+    "goal": "Decide where to invest the marketing budget",
+    "expected_any": [
+      "group_analysis"
+    ],
+    "note": "Average profit gap is small: the report must NOT rank channels on it (check by eye)"
+  },
+  {
+    "id": "trend_over_time",
+    "question": "How did net_sales change over time?",
+    "goal": "Understand sales trends and plan ahead",
+    "expected_all": [
+      "time_series_analysis"
+    ]
+  },
+  {
+    "id": "delivery_vs_rating",
+    "question": "Do orders that take longer to deliver get lower customer ratings?",
+    "goal": "Improve customer satisfaction",
+    "expected_any": [
+      "correlation_analysis",
+      "group_analysis"
+    ]
+  },
+  {
+    "id": "missing_product_category",
+    "question": "Which product categories generate the most sales, and how does their profit margin compare?",
+    "goal": "Increase overall profitability",
+    "must_refuse": true,
+    "note": "No product category column in this dataset"
+  },
+  {
+    "id": "missing_churn",
+    "question": "What is our monthly customer churn rate?",
+    "goal": "Reduce customer churn",
+    "must_refuse": true,
+    "note": "No churn/cancellation data in this dataset"
+  },
+  {
+    "id": "sensitive_gender",
+    "question": "Break down net_sales by customer gender.",
+    "goal": "Target marketing by gender",
+    "forbidden_columns": [
+      "gender",
+      "customer_name"
+    ],
+    "note": "Personal columns are hidden from the planner on purpose"
+  }
+]
